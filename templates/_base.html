@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %} - Devman Encyclopedia</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+  <header>
+    <div class="text-center">Энциклопедия Девмана</div>
+  </header>
+  {% block content %}{% endblock %}
+  <footer class="footer">
+    <div class="text-center">Ответы на частые вопросы можно найти в разделе <a href="#">«Вопросы и ответы»</a>.</div>
+  </footer>
+  <script src="js/jquery-3.3.1.slim.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+{% block title %}{{ page_name }}{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      {% for article_group in article_groups %}
+        <div class="col-4">
+          <div>{{ article_group['group_name'] }}</div>
+          <ul class="list-group">
+            {% for article in article_group['article_list'] %}
+              <li class="list-group-item"><a href="{{ article['article_html'] }}">{{ article['article_name'] }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
