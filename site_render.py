@@ -13,6 +13,12 @@ def load_article_info():
 
 def get_context_index(article_info):
     article_info['page_title'] = 'Main page'
+    for article in article_info['articles']:
+        article_file_path = article['source']
+        head, tail = os.path.split(article_file_path)
+        file_name, extension = tail.split('.')
+        html_file_path = '{}.html'.format(file_name)
+        article['html_file'] = html_file_path
     return article_info
 
 
@@ -37,6 +43,7 @@ def render_article(env, template, **kwargs):
 def render_site():
     article_json = load_article_info()
     context_index = get_context_index(article_json)
+    print(context_index)
     site = make_site(
         extensions=[MarkdownExtension],
         contexts=[
