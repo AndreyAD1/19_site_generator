@@ -4,30 +4,35 @@
   <meta charset="UTF-8">
   <title>18_comments - Devman Encyclopedia</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <header>
-    <div class="text-center">Энциклопедия Девмана</div>
+    <div class="text-center bg-primary text-white pt-2 pb-2 mb-2"><h1>Энциклопедия Девмана</h1></div>
   </header>
   
-<div class="article">
-  <h2>Какие бывают</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-8 ml-lg-auto mr-lg-auto">
+      <h2>Какие бывают</h2>
 <h3>Обычные комментарии</h3>
 <p>Комментарии – способ прокомментировать код на ходу, на той же строке. </p>
-<p>:::python
-  price = Column(BigInteger)  # рубли * 100</p>
+<pre><code>:::python
+price = Column(BigInteger)  # рубли * 100
+</code></pre>
 <h3>Докстринги</h3>
 <p>Докстринг – строковая переменная, которая идёт сразу за объявлением функции, класса, метода или модуля.
 Она нужна для документирования всей функции: описания входящих параметров, результата, логики, крайних случаев.
 Заключается в тройные двойные кавычки. Вот так:</p>
-<p>:::python
-  def tensorsolve(a, b, axes=None):
-      """
-      Solve the tensor equation <code>a x = b</code> for x.
-      It is assumed that all indices of <code>x</code> are summed over in the product,
-      together with the rightmost indices of <code>a</code>, as is done in, for example,
-      <code>tensordot(a, x, axes=len(b.shape))</code>.
-      """</p>
+<pre><code>:::python
+def tensorsolve(a, b, axes=None):
+</code></pre>
+<p>"""
+  Solve the tensor equation <code>a x = b</code> for x.
+  It is assumed that all indices of <code>x</code> are summed over in the product,
+  together with the rightmost indices of <code>a</code>, as is done in, for example,
+  <code>tensordot(a, x, axes=len(b.shape))</code>.
+  """</p>
 <p>В серьёзных проектах из них часто генерируется документация, поэтому они могут быть большими, по несколько экранов.
 Это касается проектов, у которых есть документация для разработчиков: Django, numpy, sqlalchemy.</p>
 <p>Если проект не подразумевает, что им будут пользоваться другие разработчики, такого быть не должно.
@@ -39,30 +44,35 @@
 <p>Самая частая ошибка, связанная с комментариями: дублирование информации.
 В таком случае комментарий не несёт дополнительной информации, а просто переводит соседний код
 с Питона на русский/английский. Пример:</p>
-<p>:::python
-  # загружаем данные из файла data.json
-  with open('users.json', 'r') as handler:
-      data = json.load(handler)</p>
+<pre><code>:::python
+# загружаем данные из файла data.json
+with open('users.json', 'r') as handler:
+</code></pre>
+<p>data = json.load(handler)</p>
 <p>Вот как можно исправить:</p>
-<p>:::python
-  with open('users.json', 'r') as handler:
-      data = json.load(handler)</p>
+<pre><code>:::python
+with open('users.json', 'r') as handler:
+</code></pre>
+<p>data = json.load(handler)</p>
 <p>А так – ещё лучше:</p>
-<p>:::python
-  data = load_all_users_from_file()</p>
+<pre><code>:::python
+data = load_all_users_from_file()
+</code></pre>
 <h3>Не сопровождать комментарии</h3>
 <p>Другая частая ошибка: не менять комментарии при изменении кода. В примере выше мы загружали данные из файла. 
 Через месяц взялись за голову и поселили данные в базе данных. Код стал таким:</p>
-<p>:::python
-  # загружаем данные из файла data.json
-  data = db_session.query(User).all()</p>
+<pre><code>:::python
+# загружаем данные из файла data.json
+data = db_session.query(User).all()
+</code></pre>
 <p>Данные из файла? WAT?</p>
 <h3>Думать, что все поймут</h3>
 <p>Когда программист пишет кусок кода, он глубоко в него погружён: держит в голове все детали, связи и особые случаи.
 В таком состоянии всё поведение кажется понятным, поэтому разработчик может оставить комментарий самому себе.
 Проблема в том, что когда он переключится на другую задачу и забудет про детали, комментарий может взорвать мозг:</p>
-<p>:::python
-  inv(strain_tensor) - rigidity.T  # правый случай</p>
+<pre><code>:::python
+inv(strain_tensor) - rigidity.T  # правый случай
+</code></pre>
 <p>Правый, правда? Ну, теперь всё понятно.</p>
 <h3>Шутить</h3>
 <p>Шутки к неидеальному коду смотрятся неуместно. Представь, как чувствует себя разработчик, копающийся в чужом
@@ -72,10 +82,10 @@
 <p>Вот хорошие причины использовать комментарии:</p>
 <ul>
 <li><em>объяснить неочевидное поведение</em>: бывает, что нужно объяснить какой-нибудь подводный камень куска кода
-или объяснить поведение в особом случае; использовать только если ту же информацию в коде поселить нельзя или
-очень сложно;</li>
+  или объяснить поведение в особом случае; использовать только если ту же информацию в коде поселить нельзя или
+  очень сложно;</li>
 <li><em>оставить напоминание себе или коллеге</em>: речь про комментарии вроде <code>TODO: кешировать ответ ручки</code>
-или <code>FIXME: учитывать часовой пояс</code>.</li>
+  или <code>FIXME: учитывать часовой пояс</code>.</li>
 </ul>
 <p>Прежде чем написать комментарий, попробуй поселить его в коде, указав параметр или дав подходящее название переменной.</p>
 <h2>Что изучать</h2>
@@ -85,10 +95,12 @@
 <li><a href="https://docs.python.org/3.5/library/doctest.html">doctest</a>. Документация к модулю про доктесты.</li>
 <li><a href="http://stackoverflow.com/questions/184618/">What is the best comment in source code you have ever encountered?</a>. Шутить в коде не стоит, а вот посмеяться с чужих шуток можно. Это ж не нам поддерживать.</li>
 </ul>
+    </div>
+  </div>
 </div>
 
-  <footer class="footer">
-    <div class="text-center">Ответы на частые вопросы можно найти в разделе <a href="#">«Вопросы и ответы»</a>.</div>
+  <footer class="footer bg-primary pt-2 pb-2 mt-2">
+    <div class="text-center text-dark">Ответы на частые вопросы можно найти в разделе <a href="#" class="text-white">«Вопросы и ответы»</a>.</div>
   </footer>
   <script src="js/jquery-3.3.1.slim.min.js"></script>
   <script src="js/popper.min.js"></script>

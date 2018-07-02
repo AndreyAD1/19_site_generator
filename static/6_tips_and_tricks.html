@@ -4,108 +4,128 @@
   <meta charset="UTF-8">
   <title>6_tips_and_tricks - Devman Encyclopedia</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <header>
-    <div class="text-center">Энциклопедия Девмана</div>
+    <div class="text-center bg-primary text-white pt-2 pb-2 mb-2"><h1>Энциклопедия Девмана</h1></div>
   </header>
   
-<div class="article">
-  <p>Тут – разные мелочи, на которых обычно спотыкаются новички в Питоне. Шагай свободно.</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-8 ml-lg-auto mr-lg-auto">
+      <p>Тут – разные мелочи, на которых обычно спотыкаются новички в Питоне. Шагай свободно.</p>
 <h3>Итерируй сразу по коллекции, а не по индексам</h3>
 <p>Раньше в C++ итерация по коллекции проходила так:</p>
-<p>:::cpp
-  for(int i = 0; i &lt; books_amount; i++) {
-      cout &lt;&lt; books[i];
-  }</p>
+<pre><code>:::cpp
+for(int i = 0; i &lt; books_amount; i++) {
+</code></pre>
+<p>cout &lt;&lt; books[i];
+    }</p>
 <p>Этот же способ используется в других языках. Поэтому на Питоне хочется написать так же:</p>
-<p>:::python
-  for i in len(books):
-      print(books[i])</p>
+<pre><code>:::python
+for i in len(books):
+</code></pre>
+<p>print(books[i])</p>
 <p>Это неудобная дичь, древность и вообще. Вот как надо:</p>
-<p>:::python
-  for book in books:
-      print(book)</p>
+<pre><code>:::python
+for book in books:
+</code></pre>
+<p>print(book)</p>
 <p>Часто вместе с элементом нужен его номер. Памятуя, что можно итерировать по коллекции, хочется сделать как-то так:</p>
-<p>:::python
-  i = 0 
-  for book in books:
-      print(i, book)
-      i += 1</p>
+<pre><code>:::python
+i = 0 
+for book in books:
+</code></pre>
+<p>print(i, book)
+  i += 1</p>
 <p>Это тоже неудобная дичь, древность и вообще. Для этого есть встроенная функция <code>enumerate</code>:</p>
-<p>:::python
-  for book_number, book in enumerate(books):
-      print(book_number, book)</p>
+<pre><code>:::python
+for book_number, book in enumerate(books):
+</code></pre>
+<p>print(book_number, book)</p>
 <p>Делай правильно и не делай неправильно.</p>
 <h3>Используй None</h3>
 <p>Часто нужно предусмотреть какой-нибудь хреновый случай – нет файла с данными, не работает интернет,
 не хватает места на диске, пользователь ввёл неверные данные. </p>
 <p>В этом случае переменную с данными нужно чем-то заполнить, но со смыслом, типа, "тут ничего нет".</p>
 <p>Для "ничего" в Питоне есть <code>None</code>. Не пустая строка и не -1, а именно <code>None</code>:</p>
-<p>:::python
-  try:
-      latitude = float(input('Введите широту: '))
-  except ValueError:
-      latitude = None</p>
-<p>if latitude is None:
-      print('wtf, dude?')</p>
+<pre><code>:::python
+try:
+</code></pre>
+<p>latitude = float(input('Введите широту: '))
+    except ValueError:
+  latitude = None</p>
+<pre><code>if latitude is None:
+</code></pre>
+<p>print('wtf, dude?')</p>
 <p>Обрати внимание на то, как проверяется, находится ли в переменной <code>None</code>: <code>if latitude is None</code>.
 Не <code>if latitude == None</code> и не <code>if latitude</code>. Это важно.</p>
 <h3>Меньше вложенности</h3>
 <p>Загрузим json из файла:</p>
-<p>:::python
-  def load_json_data(filepath):
-      with open(filepath, 'r') as file_handler:
-          return json.load(file_handler)</p>
+<pre><code>:::python
+def load_json_data(filepath):
+</code></pre>
+<p>with open(filepath, 'r') as file_handler:
+      return json.load(file_handler)</p>
 <p>Всё сломается, если передать путь до несуществующего файла. Исправим:</p>
-<p>:::python
-  def load_json_data(filepath):
-      if os.path.exists(filepath):
-          with open(filepath, 'r') as file_handler:
-              return json.load(file_handler)
-      else:
-          return None</p>
+<pre><code>:::python
+def load_json_data(filepath):
+</code></pre>
+<p>if os.path.exists(filepath):
+      with open(filepath, 'r') as file_handler:
+          return json.load(file_handler)
+  else:
+      return None</p>
 <p>Первый секрет: если функция ничего не возвращает, то она возвращает <code>None</code>. Поэтому писать <code>return None</code> в конце
  функции смысла нет.
 Избавляемся от <code>else</code>:</p>
-<p>:::python
-  def load_json_data(filepath):
-      if os.path.exists(filepath):
-          with open(filepath, 'r') as file_handler:
-              return json.load(file_handler)</p>
+<pre><code>:::python
+def load_json_data(filepath):
+</code></pre>
+<p>if os.path.exists(filepath):
+      with open(filepath, 'r') as file_handler:
+          return json.load(file_handler)</p>
 <p>Теперь всё лаконично, но очень связанно, как предложение, в котором, помимо деепричастных оборотов, есть ещё
 несколько уровней подчинений, сложным образом связанных друг с другом и заставляющие держать их все в
 памяти, чтобы понять смысл, пусть и простой.</p>
 <p>Упростить можно так:</p>
-<p>:::python
-  def load_json_data(filepath):
-      if not os.path.exists(filepath):
-          return None
-      with open(filepath, 'r') as file_handler:
-          return json.load(file_handler)</p>
+<pre><code>:::python
+def load_json_data(filepath):
+</code></pre>
+<p>if not os.path.exists(filepath):
+      return None
+  with open(filepath, 'r') as file_handler:
+      return json.load(file_handler)</p>
 <p>Теперь стало проще: меньше вложенности, просто читать. Меньше багов.</p>
 <h3>Используй превращение типов в bool</h3>
 <p>Часто в коде приходится проверять переменные на нулевые значения.
 Например, пустой список:</p>
-<p>:::python
-  if len(users) == 0:
-      pass</p>
+<pre><code>:::python
+if len(users) == 0:
+</code></pre>
+<p>pass</p>
 <p>Или пустая строка:</p>
-<p>:::python
-  if user.email == '':
-      pass</p>
+<pre><code>:::python
+if user.email == '':
+</code></pre>
+<p>pass</p>
 <p>Или ноль:</p>
-<p>:::python
-  if user.level == 0:
-      pass</p>
+<pre><code>:::python
+if user.level == 0:
+</code></pre>
+<p>pass</p>
 <p>Все три примера выше – неверные. Вот их верные аналоги:</p>
-<p>:::python
-  if not users:
-      pass</p>
-<p>if not user.email:
-      pass</p>
-<p>if not user.level:
-      pass</p>
+<pre><code>:::python
+if not users:
+</code></pre>
+<p>pass</p>
+<pre><code>if not user.email:
+</code></pre>
+<p>pass</p>
+<pre><code>if not user.level:
+</code></pre>
+<p>pass</p>
 <p>Дело в том, что любое условное выражение неявно конвертируется в boolean. Для каждого типа правила конвертации свои.
 Например, любая строка превратится в <code>True</code>, кроме пустой. Любое число – тоже <code>True</code>, кроме нуля.
 Подробнее в <a href="https://docs.python.org/3.5/library/stdtypes.html#truth">документации</a>.</p>
@@ -139,11 +159,12 @@
 <h3>Больше функций</h3>
 <p>Функции нужны, чтобы сделать код понятным и реиспользуемым.</p>
 <p>Понятным – это когда с первого взгляда понятно, что он делает:</p>
-<p>:::python
-  credentials = load_oauth_credentials_from_file('fb_creds.json')
-  fb_api = get_facebook_api(credentials)
-  messages = fb_api.get_unread_messages()
-  send_notifications_to_slack(messages=messages, user='ilebedev')</p>
+<pre><code>:::python
+credentials = load_oauth_credentials_from_file('fb_creds.json')
+fb_api = get_facebook_api(credentials)
+messages = fb_api.get_unread_messages()
+send_notifications_to_slack(messages=messages, user='ilebedev')
+</code></pre>
 <p>Сперва из файла загружаются ключи доступа к АПИ Фейсбука, потом создаётся объект для взаимодействия
 с АПИ и получаются непрочитанные сообщение. Эти сообщения отправляются в Слак пользователю ilebedev.</p>
 <p>Достаточно проглядеть код сверху вниз и сразу понятно, что он делает. Если нужны детали – можно перейти
@@ -174,10 +195,12 @@
 <li><strong>объяснять, что происходит</strong>. Если скрипт выводит друзей онлайн, он должен говорить, что это друзья пользователя,
 которые сейчас онлайн. Выводит самый большой бар – должен писать, что это – самый большой бар.</li>
 </ul>
+    </div>
+  </div>
 </div>
 
-  <footer class="footer">
-    <div class="text-center">Ответы на частые вопросы можно найти в разделе <a href="#">«Вопросы и ответы»</a>.</div>
+  <footer class="footer bg-primary pt-2 pb-2 mt-2">
+    <div class="text-center text-dark">Ответы на частые вопросы можно найти в разделе <a href="#" class="text-white">«Вопросы и ответы»</a>.</div>
   </footer>
   <script src="js/jquery-3.3.1.slim.min.js"></script>
   <script src="js/popper.min.js"></script>
