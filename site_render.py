@@ -2,6 +2,14 @@ from staticjinja import make_site
 from livereload import Server
 import os
 from jinja2_markdown import MarkdownExtension
+import json
+
+
+def load_article_info():
+    with open('config.json', 'r', encoding='utf-8') as json_file:
+        article_info = json.load(json_file)
+    print(article_info)
+    print(type(article_info))
 
 
 def get_directories_and_article_files():
@@ -76,6 +84,7 @@ def render_article(env, template, **kwargs):
 
 
 def render_site():
+    load_article_info()
     context_index = get_context_index()
     site = make_site(
         extensions=[MarkdownExtension],
@@ -91,7 +100,8 @@ def render_site():
 
 
 if __name__ == '__main__':
-    server = Server()
-    server.watch('templates/', render_site)
-    # TODO watch for changes in markdown articles
-    server.serve(root='static/')
+    load_article_info()
+    # server = Server()
+    # server.watch('templates/', render_site)
+    # # TODO watch for changes in markdown articles
+    # server.serve(root='static/')
