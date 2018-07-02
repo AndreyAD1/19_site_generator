@@ -32,14 +32,14 @@ def get_article_list(folders_and_files):
         article_group = {}
         article_group['group_name'] = folder
         article_group['article_list'] = []
-        for file in sorted(
+        for file_name in sorted(
             folders_and_files[folder],
             key=lambda x: sort_by_number(x)
         ):
             article = {}
-            filename, file_extension = os.path.splitext(file)
-            article['article_name'] = filename
-            article['article_html'] = '#'
+            file_root, file_extension = os.path.splitext(file_name)
+            article['article_name'] = file_root
+            article['article_html'] = '{}.html'.format(file_root)
             article_group['article_list'].append(article)
         article_list.append(article_group)
     return article_list
