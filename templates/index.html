@@ -10,7 +10,7 @@
             {% for article in articles %}
               {% if article['topic'] == topic['slug'] %}
                 <li class="list-group-item border-0 pt-1 pb-1">
-                  <a href="{{ article['html_file'] }}">{{ article['title'] }}</a>
+                  <a href="{{ article['html_file']|escape }}">{{ article['title']|escape }}</a>
                 </li>
               {% endif %}
             {% endfor %}
