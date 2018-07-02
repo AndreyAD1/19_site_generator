@@ -83,11 +83,11 @@ def render_site():
 
 
 if __name__ == '__main__':
-    render_site()
-    # server = Server()
-    # server.watch('templates/', func=render_site())
+    # render_site()
+    server = Server()
+    server.watch('templates/', render_site)
     # # TODO watch for changes in markdown articles
-    # server.serve(root='static/')
+    server.serve(root='static/')
 
 
 # with open('articles/0_tutorial/7_codenvy.md') as file:
