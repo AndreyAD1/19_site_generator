@@ -1,4 +1,3 @@
-from staticjinja import make_site
 from livereload import Server
 import os
 from jinja2_markdown import MarkdownExtension
@@ -7,9 +6,12 @@ from jinja2 import Environment, FileSystemLoader
 
 
 def load_article_info():
-    with open('config.json', 'r', encoding='utf-8') as json_file:
-        article_info = json.load(json_file)
-    return article_info
+    try:
+        with open('config.json', 'r', encoding='utf-8') as json_file:
+            article_info = json.load(json_file)
+        return article_info
+    except FileNotFoundError:
+        return None
 
 
 def get_html_filepath(article_info):
@@ -50,15 +52,19 @@ def render_article_pages(article_info, jinja_environment):
 
 def render_site():
     article_json = load_article_info()
+    if article_json is None:
+        exit('Can not find "config.json".')
     article_json = get_html_filepath(article_json)
-    env = Environment(loader=FileSystemLoader('templates/'))
+    env = Environment(
+        loader=FileSystemLoader('templates/'),
+        extensions=[MarkdownExtension]
+    )
     render_main_page(article_json, env)
     render_article_pages(article_json, env)
 
 
 if __name__ == '__main__':
-    render_site()
-    # server = Server()
-    # server.watch('templates/', render_site)
-    # # TODO watch for changes in markdown articles
-    # server.serve(root='static/')
+    server = Server()
+    server.watch('templates/', render_site)
+    server.watch('articles/', render_site)
+    server.serve(root='static/')
