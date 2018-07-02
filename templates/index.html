@@ -1,14 +1,18 @@
 {% extends '_base.html' %}
-{% block title %}{{ page_name }}{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 {% block content %}
   <div class="container">
     <div class="row">
-      {% for article_group in article_groups %}
+      {% for topic in topics %}
         <div class="col-6 col-md-4">
-          <div class="pl-3 article-group">{{ article_group['group_name'] }}</div>
+          <div class="pl-3">{{ topic['title'] }}</div>
           <ul class="list-group">
-            {% for article in article_group['article_list'] %}
-              <li class="list-group-item border-0 pt-1 pb-1"><a href="{{ article['article_html'] }}">{{ article['article_title'] }}</a></li>
+            {% for article in articles %}
+              {% if article['topic'] == topic['slug'] %}
+                <li class="list-group-item border-0 pt-1 pb-1">
+                  <a href="{{ article['source'] }}">{{ article['title'] }}</a>
+                </li>
+              {% endif %}
             {% endfor %}
           </ul>
         </div>
