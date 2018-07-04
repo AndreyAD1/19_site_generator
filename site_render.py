@@ -1,8 +1,8 @@
-from livereload import Server
 import os
-from jinja2_markdown import MarkdownExtension
 import json
 from jinja2 import Environment, FileSystemLoader
+from jinja2_markdown import MarkdownExtension
+from livereload import Server
 
 
 def load_article_info():
@@ -53,7 +53,7 @@ def render_article_pages(article_info, jinja_environment):
 def render_site():
     article_json = load_article_info()
     if article_json is None:
-        exit('Can not find "config.json".')
+        exit('Can not find "config.json" file.')
     article_json = get_html_filepath(article_json)
     env = Environment(
         loader=FileSystemLoader('templates/'),
@@ -67,4 +67,5 @@ if __name__ == '__main__':
     server = Server()
     server.watch('templates/', render_site)
     server.watch('articles/', render_site)
+    server.watch('static/css', render_site)
     server.serve(root='static/')

@@ -1,3 +1,14 @@
-.article-group {
-  font-size: 16pt;
+.topic {
+  font-size: 18pt;
+}
+
+footer,
+header {
+  background-color: #456896;
+  color: white;
+}
+
+.article-title {
+  font-size: 26pt;
+  font-style: bold;
 }

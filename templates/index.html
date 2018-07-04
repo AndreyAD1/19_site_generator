@@ -5,7 +5,7 @@
     <div class="row">
       {% for topic in topics %}
         <div class="col-6 col-md-4">
-          <div class="pl-3">{{ topic['title'] }}</div>
+          <div class="pl-3 topic">{{ topic['title'] }}</div>
           <ul class="list-group">
             {% for article in articles %}
               {% if article['topic'] == topic['slug'] %}
