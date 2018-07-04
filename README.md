@@ -1,7 +1,7 @@
 # Encyclopedia
 
 This script gets articles from `*.md` files and returns the site with
-articles and table of contents.
+articles and table of contents - [Devman Encyclopedia](https://andreyad1.github.io/19_site_generator/static/index.html).
 
 # How to install
 
