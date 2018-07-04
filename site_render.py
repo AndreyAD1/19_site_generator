@@ -6,12 +6,9 @@ from livereload import Server
 
 
 def load_article_info():
-    try:
-        with open('config.json', 'r', encoding='utf-8') as json_file:
-            article_info = json.load(json_file)
-        return article_info
-    except FileNotFoundError:
-        return None
+    with open('config.json', 'r', encoding='utf-8') as json_file:
+        article_info = json.load(json_file)
+    return article_info
 
 
 def get_html_filepath(article_info):
@@ -52,8 +49,6 @@ def render_article_pages(article_info, jinja_environment):
 
 def render_site():
     article_json = load_article_info()
-    if article_json is None:
-        exit('Can not find "config.json" file.')
     article_json = get_html_filepath(article_json)
     env = Environment(
         loader=FileSystemLoader('templates/'),
