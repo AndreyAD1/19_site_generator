@@ -12,28 +12,31 @@ def load_article_info():
 
 
 def get_html_filepath(article_info):
-    for article in article_info['articles']:
+    articles_with_html_filepath = article_info
+    for article in articles_with_html_filepath['articles']:
         article_file_path = article['source']
         head, tail = os.path.split(article_file_path)
         file_name, extension = tail.split('.')
         html_file_path = '{}.html'.format(file_name)
         article['html_filepath'] = html_file_path
-    return article_info
+    return articles_with_html_filepath
 
 
 def get_article_context(article_dict):
-    article_file_path = 'articles/{}'.format(article_dict['source'])
+    article_file_path = os.path.join('articles', article_dict['source'])
     with open(article_file_path) as article_file:
         article_content = article_file.read()
-    article_dict['article_content'] = article_content
-    return article_dict
+    article_dict_with_content = article_dict
+    article_dict_with_content['article_content'] = article_content
+    return article_dict_with_content
 
 
 def render_main_page(article_info, jinja_environment):
     article_info['page_title'] = 'Main page'
     index_template = jinja_environment.get_template('index.html')
     index_html = index_template.render(article_info)
-    with open('static/index.html', 'w', encoding='utf-8') as index_file:
+    index_filepath = os.path.join('static', 'index.html')
+    with open(index_filepath, 'w', encoding='utf-8') as index_file:
         index_file.write(index_html)
 
 
@@ -42,7 +45,7 @@ def render_article_pages(article_info, jinja_environment):
         article_context = get_article_context(article)
         article_template = jinja_environment.get_template('_article.html')
         article_html = article_template.render(article_context)
-        article_filepath = 'static/{}'.format(article['html_filepath'])
+        article_filepath = os.path.join('static', article['html_filepath'])
         with open(article_filepath, 'w', encoding='utf-8') as article_file:
             article_file.write(article_html)
 
