@@ -12,7 +12,7 @@ def load_article_info():
 
 
 def get_html_filepath(article_info):
-    articles_with_html_filepath = article_info
+    articles_with_html_filepath = article_info.copy()
     for article in articles_with_html_filepath['articles']:
         article_file_path = article['source']
         head, tail = os.path.split(article_file_path)
@@ -26,7 +26,7 @@ def get_article_context(article_dict):
     article_file_path = os.path.join('articles', article_dict['source'])
     with open(article_file_path) as article_file:
         article_content = article_file.read()
-    article_dict_with_content = article_dict
+    article_dict_with_content = article_dict.copy()
     article_dict_with_content['article_content'] = article_content
     return article_dict_with_content
 
